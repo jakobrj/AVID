@@ -1,0 +1,1 @@
+nvcc simpleGL.cu -I..\..\common\inc -I./ -I..\..\common\inc\GL\ -L..\..\common\lib\x64 -lglew64 -lfreeglut 

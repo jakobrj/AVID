@@ -93,7 +93,7 @@
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CudaCompile Include="DV.cu" />
+    <CudaCompile Include="src\DV.cu" />
     <CudaCompile Include="src\algorithms\GPU_PROCLUS.cu" />
     <CudaCompile Include="src\utils\gpu_util.cu" />
   </ItemGroup>

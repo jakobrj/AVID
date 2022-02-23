@@ -7,13 +7,17 @@ LINKDIRS=-lglut -lGL -lGLEW
 
 CPP=
 
-CU=src/algorithms/GPU_PROCLUS.cu src/utils/gpu_util.cu
+CU=src/algorithms/GPU_PROCLUS.cu src/utils/gpu_util.cu src/utils/mem_util.cpp
 
 CUFLAGS=-arch=sm_75 --extended-lambda --ptxas-options=-v
 
 release: src/DV.cu
 	$(NVCC) -o bin/release/main src/DV.cu $(CPP) $(CU) $(INCDIRS) $(LINKDIRS) $(CUFLAGS) -O3
 
-run_release:
-	python generate.py $(n) $(d) $(cl)
-	./bin/release/main $(n) $(d) $(cl) $(v)
+run:
+	./bin/release/main
+
+
+build_and_run: src/DV.cu
+	$(NVCC) -o bin/release/main src/DV.cu $(CPP) $(CU) $(INCDIRS) $(LINKDIRS) $(CUFLAGS) -O3
+	./bin/release/main

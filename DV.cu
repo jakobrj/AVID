@@ -1626,6 +1626,7 @@ public:
 
         } else {
 
+            printf("Line number %d in file %s\n", __LINE__, __FILE__);
             float colors[13 * 3] = {
                     62, 62, 62,
                     31, 120, 180,
@@ -1698,6 +1699,7 @@ public:
             }
             glEnd();
             glFlush();
+            printf("Line number %d in file %s\n", __LINE__, __FILE__);
 
         }
     }
@@ -1858,6 +1860,8 @@ private:
 
     int size = 1;
 
+    float *h_colors;//= new float[32 * 32];
+
     std::function<int()> get_k = [&]() { return context.k; };
     std::function<int()> get_l = [&]() { return context.l; };
 
@@ -1868,7 +1872,12 @@ public:
                                                                                               d_points(d_points),
                                                                                               h_points(h_points),
                                                                                               n(n),
-                                                                                              d(d) {}
+                                                                                              d(d) {
+
+        printf("Line number %d in file %s\n", __LINE__, __FILE__);
+        h_colors = new float[32 * 32];
+        printf("Line number %d in file %s\n", __LINE__, __FILE__);
+    }
 
     void on_mouse_changed(int x, int y, int state) {
     }
@@ -1898,6 +1907,7 @@ public:
     }
 
     void paint() {
+        printf("Line number %d in file %s\n", __LINE__, __FILE__);
 
         if (context.use_GPU) {
 
@@ -1952,19 +1962,22 @@ public:
             glDisableClientState(GL_COLOR_ARRAY);
         } else {
 
+            printf("Line number %d in file %s\n", __LINE__, __FILE__);
 
             int *h_C = context.get_result(get_k(), get_l()).get_h_C();
             int *h_C_sel = context.get_result(context.k, context.l).get_h_C();
             bool *h_D = context.get_result(get_k(), get_l()).get_h_D();
+            printf("Line number %d in file %s\n", __LINE__, __FILE__);
 
 
             float tile_x_width = (x_scale->get_range_max() - x_scale->get_range_min()) / 32;
             float tile_y_width = (y_scale->get_range_max() - y_scale->get_range_min()) / 32;
+            printf("Line number %d in file %s\n", __LINE__, __FILE__);
 
-            float *h_colors = new float[32 * 32];
             for (int i = 0; i < 32 * 32; i++) {
                 h_colors[i] = 0.;
             }
+            printf("Line number %d in file %s\n", __LINE__, __FILE__);
 
             for (int p = 0; p < n; p++) {
                 int c = h_C_sel[p];
@@ -1977,6 +1990,13 @@ public:
                                                     (h_points[p * d + y_dim] - y_scale->get_domain_min()) /
                                                     (y_scale->get_domain_max() - y_scale->get_domain_min())) /
                         tile_y_width;
+
+                if (x >= 32) {
+                    x = 31;
+                }
+                if (y >= 32) {
+                    y = 31;
+                }
 
                 int idx = x * 32 + y;
 
@@ -1994,6 +2014,7 @@ public:
                 }
             }
 
+            printf("Line number %d in file %s\n", __LINE__, __FILE__);
             glBegin(GL_QUADS);   //We want to draw a quad, i.e. shape with four sides
 
 
@@ -2012,9 +2033,13 @@ public:
             }
 
             glEnd();
+            printf("Line number %d in file %s\n", __LINE__, __FILE__);
             glFlush();
-            delete h_colors;
+//            delete h_colors;
+
+            printf("Line number %d in file %s\n", __LINE__, __FILE__);
         }
+        printf("Line number %d in file %s\n", __LINE__, __FILE__);
     }
 };
 
@@ -2126,6 +2151,8 @@ private:
 
     int size = 1;
 
+    float *h_colors = new float[32 * 32];
+
     std::function<int()> get_k = [&]() { return context.k; };
     std::function<int()> get_l = [&]() { return context.l; };
 
@@ -2230,6 +2257,7 @@ public:
         } else {
 
 
+            printf("Line number %d in file %s\n", __LINE__, __FILE__);
             int *h_C = context.get_result(get_k(), get_l()).get_h_C();
             int *h_C_sel = context.get_result(context.k, context.l).get_h_C();
             bool *h_D = context.get_result(get_k(), get_l()).get_h_D();
@@ -2238,7 +2266,6 @@ public:
             float tile_x_width = (x_scale->get_range_max() - x_scale->get_range_min()) / 32;
             float tile_y_width = (y_scale->get_range_max() - y_scale->get_range_min()) / 32;
 
-            float *h_colors = new float[32 * 32];
             for (int i = 0; i < 32 * 32; i++) {
                 h_colors[i] = 0.;
             }
@@ -2289,7 +2316,9 @@ public:
             }
 
             glEnd();
-            delete h_colors;
+//            delete h_colors;
+
+            printf("Line number %d in file %s\n", __LINE__, __FILE__);
         }
     }
 };
@@ -3890,12 +3919,16 @@ void run_proclus() {
 }
 
 void display() {  // Display function will draw the image.
+
+    printf("Line number %d in file %s\n", __LINE__, __FILE__);
     context.window_width = glutGet(GLUT_WINDOW_WIDTH);
     context.window_height = glutGet(GLUT_WINDOW_HEIGHT);
 
     glClearColor(1, 1, 1, 1);  // (In fact, this is the default.)
     glClear(GL_COLOR_BUFFER_BIT);
     context.body->paint();
+
+    printf("Line number %d in file %s\n", __LINE__, __FILE__);
 
     if (context.tooltip != nullptr) {
         context.tooltip();
@@ -3905,6 +3938,8 @@ void display() {  // Display function will draw the image.
     glutSwapBuffers(); // Required to copy color buffer onto the screen.
     context.t += 0.01;
     context.t = context.t > 1. ? 0. : context.t;
+
+    printf("Line number %d in file %s\n", __LINE__, __FILE__);
 
 }
 

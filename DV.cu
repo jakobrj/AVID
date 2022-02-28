@@ -53,65 +53,65 @@ float sim_dist(float *D, int d, int i, int j) {
     return sqrt(distance);
 }
 
-float SilhouetteCoefficient(float *D, int *C, int d, int n, int k) {
-
-    int sizes[k];
-    float avg_d[k];
-    float SC = 0.;
-
-
-    for (int c = 0; c < k; c++) {
-        sizes[c] = 0.;
-    }
-    for (int i = 0; i < n; i++) {
-
-        int c_i = C[i];
-        if (c_i >= 0) {
-            sizes[c_i]++;
-        }
-    }
-
-    for (int i = 0; i < n; i++) {
-
-        for (int c = 0; c < k; c++) {
-            avg_d[c] = 0.;
-        }
-
-        int c_i = C[i];
-        if (c_i < 0) {
-            SC += 1.;
-            continue;
-        }
-
-        for (int j = 0; j < n; j++) {
-            if (i != j) {
-                int c_j = C[j];
-                avg_d[c_j] += sim_dist(D, d, i, j);
-            }
-        }
-        for (int c_j = 0; c_j < k; c_j++) {
-            avg_d[c_j] /= (sizes[c_j] - 1);
-        }
-
-        float a = avg_d[c_i];
-        float b = 0.;
-        bool first = true;
-        for (int c_j = 0; c_j < k; c_j++) {
-            if (c_i != c_j) {
-                if (first) {
-                    first = false;
-                    b = avg_d[c_j];
-                } else if (b > avg_d[c_j]) {
-                    b = avg_d[c_j];
-                }
-            }
-        }
-        float s = (b - a) / max(b, a);
-        SC += s;
-    }
-
-    return SC / n;
-}
+//float SilhouetteCoefficient(float *D, int *C, int d, int n, int k) {
+//
+//    int sizes[k];
+//    float avg_d[k];
+//    float SC = 0.;
+//
+//
+//    for (int c = 0; c < k; c++) {
+//        sizes[c] = 0.;
+//    }
+//    for (int i = 0; i < n; i++) {
+//
+//        int c_i = C[i];
+//        if (c_i >= 0) {
+//            sizes[c_i]++;
+//        }
+//    }
+//
+//    for (int i = 0; i < n; i++) {
+//
+//        for (int c = 0; c < k; c++) {
+//            avg_d[c] = 0.;
+//        }
+//
+//        int c_i = C[i];
+//        if (c_i < 0) {
+//            SC += 1.;
+//            continue;
+//        }
+//
+//        for (int j = 0; j < n; j++) {
+//            if (i != j) {
+//                int c_j = C[j];
+//                avg_d[c_j] += sim_dist(D, d, i, j);
+//            }
+//        }
+//        for (int c_j = 0; c_j < k; c_j++) {
+//            avg_d[c_j] /= (sizes[c_j] - 1);
+//        }
+//
+//        float a = avg_d[c_i];
+//        float b = 0.;
+//        bool first = true;
+//        for (int c_j = 0; c_j < k; c_j++) {
+//            if (c_i != c_j) {
+//                if (first) {
+//                    first = false;
+//                    b = avg_d[c_j];
+//                } else if (b > avg_d[c_j]) {
+//                    b = avg_d[c_j];
+//                }
+//            }
+//        }
+//        float s = (b - a) / max(b, a);
+//        SC += s;
+//    }
+//
+//    return SC / n;
+//}
 
 float tr(float *A, int d) {
     float sum = 0.;
